@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: byeol-node-dep
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: byeol-node
+  template:
+    metadata:
+      labels:
+        app: byeol-node
+    spec:
+      serviceAccountName: eks-secret-manager
+      volumes:
+      - name: secrets-store
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: "eks-secret-credentials" 
+      containers:
+        - name: byeol-node-con
+          image: 655088038759.dkr.ecr.ap-northeast-2.amazonaws.com/byeol-web:3
+          envFrom:
+          - secretRef:
+              name: eks-secret
+          volumeMounts:
+          - name: secrets-store
+            mountPath: "/mnt/secrets-store"
+            readOnly: true
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-node-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: byeol-node
+  ports:
+  - port: 3000
+    targetPort: 3000
