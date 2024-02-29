@@ -22,7 +22,7 @@ spec:
             secretProviderClass: "eks-secret-provider" 
       containers:
         - name: byeol-py-con
-          image: 655088038759.dkr.ecr.ap-northeast-2.amazonaws.com/byeol-redispy:16
+          image: 655088038759.dkr.ecr.ap-northeast-2.amazonaws.com/byeol-redispy:17
           envFrom:
           - secretRef:
               name: eks-secret
