@@ -19,7 +19,7 @@ spec:
           driver: secrets-store.csi.k8s.io
           readOnly: true
           volumeAttributes:
-            secretProviderClass: "eks_secret_credentials" 
+            secretProviderClass: "eks-secret-provider" 
       containers:
         - name: byeol-node-con
           image: 655088038759.dkr.ecr.ap-northeast-2.amazonaws.com/byeol-web:5
